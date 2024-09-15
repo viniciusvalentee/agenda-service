@@ -3,6 +3,7 @@ package com.valente.agenda.service;
 
 import com.valente.agenda.domain.entity.Paciente;
 import com.valente.agenda.domain.entity.repository.PacienteRepository;
+import com.valente.agenda.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,17 @@ public class PacienteService {
 
     public Paciente save(Paciente paciente) {
 
-        // TODO: validate if CPF exists
+        boolean CpfExists = false;
+        Optional<Paciente> optPaciente = repository.findByCpf(paciente.getCpf());
+
+        if(optPaciente.isPresent()) {
+            if(!optPaciente.get().getId().equals(paciente.getId())) {
+                CpfExists = true;
+            }
+        }
+        if(CpfExists) {
+            throw new BusinessException("CPF já cadastrado");
+        }
         
         return repository.save(paciente);
     }
