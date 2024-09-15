@@ -1,6 +1,7 @@
 package com.valente.agenda.service;
 
 
+import com.valente.agenda.domain.entity.Paciente;
 import com.valente.agenda.domain.entity.repository.PacienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
