@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,4 +29,30 @@ public class PacienteController {
     public ResponseEntity<List<Paciente>> listAll() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listAll());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Paciente> searchById(@PathVariable Long id) {
+        Optional<Paciente> optPaciente = service.searchById(id);
+
+        if(optPaciente.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(optPaciente.get());
+    }
+
+    @PutMapping
+    public ResponseEntity<Paciente> change(@RequestBody Paciente paciente) {
+        Paciente savedPaciente = service.save(paciente);
+
+        return ResponseEntity.status(HttpStatus.OK).body(savedPaciente);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
 }
