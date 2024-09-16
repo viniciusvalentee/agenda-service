@@ -1,6 +1,9 @@
 package com.valente.agenda.api.controller;
 
 
+import com.valente.agenda.api.mapper.PacienteMapper;
+import com.valente.agenda.api.request.PacienteRequest;
+import com.valente.agenda.api.response.PacienteResponse;
 import com.valente.agenda.domain.entity.Paciente;
 import com.valente.agenda.service.PacienteService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +22,13 @@ public class PacienteController {
     private final PacienteService service;
 
     @PostMapping
-    public ResponseEntity<Paciente> save(@RequestBody Paciente paciente) {
+    public ResponseEntity<PacienteResponse> save(@RequestBody PacienteRequest request) {
 
+        Paciente paciente = PacienteMapper.toPaciente(request);
         Paciente savedPaciente = service.save(paciente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPaciente);
+        PacienteResponse pacienteResponse = PacienteMapper.toPacienteResponse(savedPaciente);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteResponse);
     }
 
     @GetMapping
