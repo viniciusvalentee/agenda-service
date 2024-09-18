@@ -6,6 +6,7 @@ import com.valente.agenda.api.request.PacienteRequest;
 import com.valente.agenda.api.response.PacienteResponse;
 import com.valente.agenda.domain.entity.Paciente;
 import com.valente.agenda.service.PacienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class PacienteController {
     private final PacienteService service;
 
     @PostMapping
-    public ResponseEntity<PacienteResponse> save(@RequestBody PacienteRequest request) {
+    public ResponseEntity<PacienteResponse> save(@Valid @RequestBody PacienteRequest request) {
 
         Paciente paciente = PacienteMapper.toPaciente(request);
         Paciente savedPaciente = service.save(paciente);
@@ -47,11 +48,13 @@ public class PacienteController {
         return ResponseEntity.status(HttpStatus.OK).body(optPaciente.get());
     }
 
-    @PutMapping
-    public ResponseEntity<Paciente> change(@RequestBody Paciente paciente) {
-        Paciente savedPaciente = service.save(paciente);
+    @PutMapping("/{id}")
+    public ResponseEntity<PacienteResponse> update(@PathVariable Long id, @RequestBody PacienteRequest request) {
+        Paciente paciente = PacienteMapper.toPaciente(request);
+        Paciente savedPaciente = service.change(id, paciente);
+        PacienteResponse pacienteResponse = PacienteMapper.toPacienteResponse(savedPaciente);
 
-        return ResponseEntity.status(HttpStatus.OK).body(savedPaciente);
+        return ResponseEntity.status(HttpStatus.OK).body(pacienteResponse);
     }
 
     @DeleteMapping("/{id}")
