@@ -6,7 +6,7 @@ import com.valente.agenda.api.request.PacienteRequest;
 import com.valente.agenda.api.response.PacienteResponse;
 import com.valente.agenda.domain.entity.Paciente;
 import com.valente.agenda.service.PacienteService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

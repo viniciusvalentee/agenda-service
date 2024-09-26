@@ -5,7 +5,7 @@ import com.valente.agenda.api.request.AgendaRequest;
 import com.valente.agenda.api.response.AgendaResponse;
 import com.valente.agenda.domain.entity.Agenda;
 import com.valente.agenda.service.AgendaService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
