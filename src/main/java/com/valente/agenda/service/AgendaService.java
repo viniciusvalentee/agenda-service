@@ -33,7 +33,7 @@ public class AgendaService {
         Optional<Paciente> optPaciente = pacienteService.searchById(agenda.getPaciente().getId());
 
         if (optPaciente.isEmpty()) {
-            throw new BusinessException("Paciente não encontrado");
+            throw new BusinessException("Patient not found");
         }
 
         Optional<Agenda> optHorario = repository.findByHorario(agenda.getHorario());
