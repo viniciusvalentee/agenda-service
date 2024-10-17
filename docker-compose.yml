@@ -1,13 +1,12 @@
 services:
-
-  db:
+  postgres:
     container_name: postgres
     image: postgres:alpine
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: test_db
+      POSTGRES_DB: agenda
     ports:
       - "5432:5432"
     networks:
@@ -22,6 +21,20 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "15432:80"
+    networks:
+      - postgres-compose-network
+
+  app:
+    image: agenda-app:latest
+    container_name: agenda-app
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/agenda
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
     networks:
       - postgres-compose-network
 
