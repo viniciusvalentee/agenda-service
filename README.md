@@ -1,13 +1,14 @@
 # Agenda
 
 
-### To run application, first create image using Docker
+
+### To run containerized application, first create image using Docker
 
 ````shell
 docker build -t agenda-app:latest .
 ````
 
-Then run docker-compose
+### Then run docker-compose
 
 ````shell
 docker-compose up -d
