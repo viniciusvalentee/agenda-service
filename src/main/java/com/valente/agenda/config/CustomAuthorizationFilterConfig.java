@@ -1,9 +1,13 @@
 package com.valente.agenda.config;
 
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -27,10 +31,10 @@ public class CustomAuthorizationFilterConfig extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = this.getToken(request);
 
-        if (Strings.isNotBlank(token)) {
+        if(Strings.isNotBlank(token)) {
             Optional<String> login = tokenService.validateToken(token);
 
-            if (login.isPresent()) {
+            if(login.isPresent()) {
                 String usuario = login.get();
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuario, null, null);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
